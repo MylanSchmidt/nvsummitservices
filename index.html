@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/style.css" />
+  <noscript><style>[data-observe]{opacity:1 !important;transform:none !important}</style></noscript>
 </head>
 <body>
   <header class="site-header" data-header>
@@ -34,7 +35,10 @@
     <div class="hero-bg"></div>
     <div class="hero-photo" role="img" aria-label="Nevada mountains background"></div>
     <div class="hero-inner container">
-      <h1 class="hero-title">Reserve Studies • Consulting • Education<br> <span class="accent">Collection Management</span></h1>
+    <h2 class="hero-kicker">Neighbors Helping Neighbors!</h2>
+      <img src="assets/images/hero_logo.png" class="hero-wordmark" alt="Summit Services logo">
+
+      <h1 class="hero-title">Reserve Studies • Consulting • Education<br> <span class="accent">Accounting Services</span></h1>
       <p class="hero-sub">Compliance-driven services for Nevada community associations and management firms.</p>
       <div class="hero-cta">
         <a href="#services" class="btn btn-primary">Explore Services</a>
@@ -48,11 +52,15 @@
       <div class="split">
         <div>
           <h2 class="h2" id="who-title">Who We Are</h2>
-          <p><strong>NV Summit Services</strong> delivers compliance-first support for Nevada community associations and management companies. We provide <em>Reserve Studies</em>, <em>Consulting</em>, and <em>Education</em>, and coordinate with licensed legal professionals at <em>H&amp;H Legal</em> for collection management — maintaining strict duty separation.</p>
+          <p><strong>NV Summit Services</strong> is dedicated to empowering both industry professionals and homeowner volunteers
+          through education and collaboration. Our goal is to simplify the complexities of the HOA process by providing
+          accessible, practical training and consulting services designed to promote transparency, efficiency, and compliance
+          within Nevada’s common-interest communities.</p>
         </div>
         <div class="card note" role="note" aria-label="Compliance Statement">
-          <h3 class="h4">Compliance Statement</h3>
-          <p>NV Summit Services is not a collection agency and does not conduct debt collection activities. We provide administrative coordination and refer matters to H&amp;H Legal, a separate and independent law firm.</p>
+          <h3 class="h4"><strong>Professional Licenses-</strong></h3><br>
+          <p>Licensed Community Association Manager (CAM #226)<br><br>
+          Licensed Reserve Specialist (RS #321)</p>
         </div>
       </div>
     </div>
@@ -65,33 +73,32 @@
 
       <div class="grid services-grid">
         <article class="service-card" data-observe>
-          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&amp;fit=crop&amp;w=1200&amp;q=80');"></div>
+          <div class="thumb" style="background-image:url('assets/images/service-reserve.jpg');"></div>
           <h3 class="h4">Reserve Studies</h3>
           <p>Full studies, updates, and annual reviews.</p>
           <button class="btn btn-primary" data-open="reserve-modal">Request Proposal</button>
         </article>
 
         <article class="service-card" data-observe>
-          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&amp;fit=crop&amp;w=1200&amp;q=80');"></div>
+          <div class="thumb" style="background-image:url('assets/images/service-education.jpg');"></div>
           <h3 class="h4">Education</h3>
           <p>Training for boards and management teams.</p>
           <button class="btn btn-primary" data-open="education-modal">Request Info</button>
         </article>
 
         <article class="service-card" data-observe>
-          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&amp;fit=crop&amp;w=1200&amp;q=80');"></div>
+          <div class="thumb" style="background-image:url('assets/images/service-consulting.jpg');"></div>
           <h3 class="h4">Consulting Services</h3>
           <p>Guidance on operations and compliance.</p>
           <button class="btn btn-primary" data-open="consulting-modal">Request Info</button>
         </article>
 
-        <!-- H&H card with image URL that has no query string (no '&') -->
         <article class="service-card" data-observe>
           <div class="thumb"
-            style="background-image:url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&amp;fit=crop&amp;w=1200&amp;q=80');">
+            style="background-image:url('assets/images/service-legal.jpg');">
           </div>
-          <h3 class="h4">Collection Management / H&amp;H Legal</h3>
-          <p>Coordinated support with H&amp;H Legal (independent law firm).</p>
+          <h3 class="h4">H&amp;H Legal</h3>
+          <p>Support cordination with H&amp;H Legal (independent law firm).</p>
           <a class="btn btn-primary" href="handhlegal.html">Visit H&amp;H Legal</a>
         </article>
       </div>
@@ -107,6 +114,8 @@
           <ul class="contact-list">
             <li><strong>Email:</strong> <a href="mailto:info@nvsummitservices.com">info@nvsummitservices.com</a></li>
             <li><strong>Phone:</strong> <a href="tel:+17752432686">775-243-2686</a></li>
+            <li><strong>Address:</strong> 300 East 2nd Street #1520, Reno, NV 89501</li>
+            <li><strong>Business Hours:</strong> Mon-Fri, 9am-5pm / Sat,Sun by appointment</li>
           </ul>
         </div>
         <div class="card" aria-label="Quick message form">
@@ -124,7 +133,14 @@
 
   <footer class="footer" role="contentinfo">
     <div class="container footer-inner">
-      <p>© 2025 NV Summit Services. All rights reserved.</p>
+      <div class="footer-copy">
+        <p>© 2025 NV Summit Services. All rights reserved.</p>
+        <p class="footer-disclaimer">
+          NV Summit Services is a Nevada-based managed services provider supporting licensed professionals in
+          recovery operations. We are not a law firm and do not provide legal advice.
+        </p>
+      </div>
+  
       <nav class="footer-nav" aria-label="Footer">
         <a href="#top">Top</a>
         <a href="#services">Services</a>

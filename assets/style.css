@@ -1,6 +1,6 @@
 :root{
   --navy:#0a1b2a; --slate:#3a4a5b; --bg:#0f1115; --card:#15181f; --gold:#c9a44a; --line:#2a2f38;
-  --hero: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2400&q=80');
+  --hero: url('images/hero.jpg');
   --card-border: 2px; /* thicker service card borders */
 }
 
@@ -169,3 +169,69 @@ textarea:focus,input:focus,select:focus{outline:2px solid color-mix(in srgb, var
 /* Reveal on scroll */
 [data-observe]{opacity:0;transform:translateY(18px);transition:opacity .5s, transform .5s}
 [data-observe].visible{opacity:1;transform:none}
+
+
+/* --- Hero kicker & wordmark --- */
+.hero-inner{ display:flex; flex-direction:column; align-items:center; }
+.hero-kicker{
+  margin: 0 0 .45rem;
+  font-weight: 800;
+  font-size: calc(1.18 * clamp(1.8rem, 3.2vw, 3rem)); /* slightly larger than hero-title */
+  line-height: 1.05;
+  letter-spacing: .2px;
+}
+.hero-wordmark{
+  width: clamp(220px, 28vw, 360px);
+  height: auto;
+  margin: .25rem 0 .65rem;
+  opacity: .95; /* transparent PNG lets background show through */
+  filter: drop-shadow(0 8px 22px rgba(0,0,0,.35));
+}
+.hero-title{ line-height: 1.1; }
+/* Hero kicker color */
+#top .hero-kicker {
+  color: var(--gold);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+}
+
+/* Contact links: white until hover, then link blue */
+.contact-list a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  transition: color .2s ease, border-color .2s ease;
+}
+
+.contact-list a:visited {
+  color: #fff;
+}
+
+.contact-list a:hover,
+.contact-list a:focus-visible {
+  color: #4ea1ff;
+  /* link blue */
+  border-bottom-color: currentColor;
+}
+
+.contact-list a:active {
+  color: #79b9ff;
+}
+
+/* Footer disclaimer */
+.footer-copy {
+  max-width: 60ch;
+}
+
+.footer-disclaimer {
+  margin: .25rem 0 0;
+  font-size: .83rem;
+  color: #c1c7d0;
+}
+
+@media (max-width: 640px) {
+  .footer-inner {
+    gap: .6rem;
+  }
+}
+
+
