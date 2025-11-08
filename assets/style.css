@@ -55,7 +55,7 @@ img{max-width:100%;display:block}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1rem;border-radius:.75rem;text-decoration:none;font-weight:600;letter-spacing:.2px;cursor:pointer;border:1px solid transparent;transition:transform .08s, box-shadow .2s, background .3s, color .3s}
 .btn:active{transform:translateY(1px)}
 .btn-primary{background:var(--gold);color:#111;box-shadow:0 10px 30px rgba(0,0,0,.18)}
-.btn-primary:hover{filter:brightness(1.05)}
+.btn-primary:hover{filter:brightness(1.10)}
 .btn-ghost{background:transparent;color:#e6edf6;border-color:#ffffff33}
 .btn-ghost:hover{background:#ffffff14}
 
@@ -234,4 +234,68 @@ textarea:focus,input:focus,select:focus{outline:2px solid color-mix(in srgb, var
   }
 }
 
+/* Demand Letter modal layout (non-invasive) */
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 24px;
+}
 
+@media (max-width: 860px) {
+  .modal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left column callout */
+.callout {
+  background: var(--panel, #0f1419);
+  border-radius: 14px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.callout-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0 0 .75rem 0;
+  color: #d4d4d4;
+}
+
+.callout-phone {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.1;
+  margin: 0 0 1rem 0;
+  white-space: nowrap;
+}
+
+.callout-phone a {
+  text-decoration: none;
+  color: var(--link, #7cc2ff);
+}
+
+.callout-divider {
+  border: none;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 14px 0;
+}
+
+.callout-note {
+  font-size: 1.25rem;
+  color: #cfcfcf;
+  margin: .5rem 0 0 0;
+}
+
+/* Right column form width */
+.form-wrap .stack>label {
+  display: block;
+  margin-bottom: .85rem;
+}
+
+.form-wrap input,
+.form-wrap textarea,
+.form-wrap select {
+  width: 100%;
+}

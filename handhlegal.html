@@ -1,55 +1,129 @@
 <!DOCTYPE html>
 <html lang='en'>
+
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <title>H&H Legal</title>
-  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap' rel='stylesheet'>
+  <link
+    href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap'
+    rel='stylesheet'>
   <link rel='stylesheet' href='assets/style.css'>
-<link rel="icon" type="image/x-icon" href="assets/images/handh-favicon-badge.ico?v=3">
-<link rel="icon" type="image/png" sizes="180x180" href="assets/images/handh-favicon-badge.png?v=3">
+  <link rel="icon" type="image/x-icon" href="assets/images/handh-favicon-badge.ico?v=3">
+  <link rel="icon" type="image/png" sizes="180x180" href="assets/images/handh-favicon-badge.png?v=3">
   <style>
-    /* Center this page only */
-    body.handh .legal-hero{
+    body.handh .legal-hero {
       min-height: 80vh;
       display: grid;
       place-items: center;
       text-align: center;
       position: relative;
     }
-    body.handh .legal-inner{
+
+    body.handh .legal-inner {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: .5rem;
       padding: 2rem 1rem;
     }
-    body.handh address{ font-style: normal; }
-    body.handh .actions{ display: flex; gap: .75rem; justify-content: center; }
-    body.handh .legal-disclaimer{ 
-      max-width: 60ch; 
-      font-size: .95rem; 
-      line-height: 1.5; 
-      color: #c9ced6; 
+
+    body.handh address {
+      font-style: normal;
+    }
+
+    body.handh .actions {
+      display: flex;
+      gap: .75rem;
+      justify-content: center;
+    }
+
+    body.handh .legal-disclaimer {
+      max-width: 60ch;
+      font-size: .95rem;
+      line-height: 1.5;
+      color: #c9ced6;
       margin-top: .5rem;
     }
-    body.handh .legal-disclaimer strong{ color:#e7eaee; }
-  </style>
 
+    body.handh .legal-disclaimer strong {
+      color: #e7eaee;
+    }
+  </style>
 </head>
+
 <body class='handh'>
   <section class='legal-hero'>
     <div class='overlay'></div>
     <div class='legal-inner'>
       <h1 class='h1'>H&amp;H Legal</h1>
       <p class='lead'>Amanda A. Harmon, Esq · Kevin R. Hansen, Esq</p>
-      <address>300 E. Second Street, 15th Floor<br>Reno, NV 89502<br>775‑525‑0155</address>
-      <div class='actions'><a class='btn btn-primary' href='https://nvsm.anva.com/ui/#/login' target="_blank" rel="noopener">Access the Client Portal</a></div>
+      <address>300 E. Second Street, 15th Floor<br>Reno, NV 89502<br>775-525-0155</address>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://nvsm.anva.com/ui/#/login" target="_blank" rel="noopener">
+          Access the Client Portal
+        </a>
+        <a class="btn btn-primary" href="handhforms.html" target="_blank" rel="noopener">
+          Forms
+        </a>
+        <!-- This triggers the modal using delegated logic in script.js -->
+        <a class="btn btn-primary" href="#" data-modal="#modal-demand">
+          Request Demand Letter
+        </a>
+      </div>
       <p class='legal-note'>Email: <a href='mailto:handhlegal@outlook.com'>handhlegal@outlook.com</a></p>
       <p class='tiny'><strong>H&H Legal operates independently from NV Summit Services.</strong></p>
-          <div class="legal-disclaimer"><strong>Disclaimer:</strong> H&amp;H Legal is a Nevada law firm providing legal services under the direction of licensed attorneys Amanda A. Harmon, Esq. and Kevin R. Hansen, Esq. This site and linked portal are for communication and account management between clients and the firm. NV Summit Services is not a law firm, does not provide legal advice, and does not control or supervise the legal work of H&amp;H Legal.</div>
-      <p><a class='btn btn-ghost' href='index.html'>← Back to NV Summit Services</a></p>
+      <div class="legal-disclaimer"><strong>Disclaimer:</strong> H&amp;H Legal is a Nevada law firm providing legal
+        services under the direction of licensed attorneys Amanda A. Harmon, Esq. and Kevin R. Hansen, Esq. This site
+        and linked portal are for communication and account management between clients and the firm. NV Summit Services
+        is not a law firm, does not provide legal advice, and does not control or supervise the legal work of H&amp;H
+        Legal.</div>
+      <p><a class='btn btn-primary' href='index.html'>← Back to NV Summit Services</a></p>
     </div>
   </section>
+
+  <!-- Demand Letter Modal, now with modal-dialog for matching look -->
+  <dialog id="modal-demand" class="modal" aria-labelledby="demand-title">
+    <div class="modal-dialog" role="document">
+      <header class="modal-head">
+        <h3 class="h3" id="demand-title">Request Demand Letter</h3>
+        <button class="modal-close" type="button" data-close aria-label="Close">&times;</button>
+      </header>
+      <section class="modal-body">
+        <div class="modal-grid">
+          <!-- Left column (callout) -->
+          <aside class="callout">
+            <h4 class="callout-title">Give us a call</h4>
+            <p class="callout-phone"><a href="tel:17755250155">775-525-0155</a></p>
+            <hr class="callout-divider">
+            <p class="callout-note">
+              Standard Fee-<br>$240.00<br>7-10 Business Days<br><br>Rush Fee-<br>$340.00<br>3-5 Business Days
+            </p>
+          </aside>
+          <!-- Right column (form) -->
+          <div class="form-wrap">
+            <form action="https://api.web3forms.com/submit" method="POST" class="stack" data-web3form>
+              <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
+              <input type="hidden" name="subject" value="Demand Letter Request">
+              <input type="hidden" name="from_name" value="NV Summit Services">
+              <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none">
+            
+              <input name="name" required placeholder="Your Name">
+              <input type="email" name="email" required placeholder="Email">
+              <input name="phone" required placeholder="Telephone">
+              <input name="association" placeholder="Association Name">
+              <input name="address" placeholder="Property Address">
+              <textarea name="notes" rows="4" placeholder="Notes / Instructions"></textarea>
+            
+              <button class="btn btn-primary" type="submit">Request Demand Letter</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </dialog>
+  <!-- Make sure this is included at the end, just like index.html -->
+  <script src="assets/script.js" defer></script>
 </body>
+
 </html>
