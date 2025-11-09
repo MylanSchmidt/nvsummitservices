@@ -160,6 +160,19 @@ textarea:focus,input:focus,select:focus{outline:2px solid color-mix(in srgb, var
 .modal .stack { gap:.75rem; overflow-wrap:anywhere; }
 .modal .stack .btn { max-width:100%; }
 
+/* Modal headings: make h3/h4 lighter so they contrast on the dark modal background */
+.modal .modal-dialog h3,
+.modal .modal-dialog .h3,
+.modal .modal-dialog h4,
+.modal .modal-dialog .h4,
+.modal .modal-dialog .modal-head h3,
+.modal .modal-dialog .modal-head .h3,
+.modal .modal-dialog .callout-title {
+  color: #f3f4f6;
+  -webkit-font-smoothing:antialiased;
+  text-shadow: none;
+}
+
 /* Footer */
 .footer{border-top:1px solid var(--line);background:#0d1016}
 .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0}
