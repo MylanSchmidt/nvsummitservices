@@ -150,6 +150,19 @@ textarea:focus,input:focus,select:focus{outline:2px solid color-mix(in srgb, var
 @keyframes rise{from{transform:translateY(22px);opacity:.6}to{transform:translateY(0);opacity:1}}
 .modal-close{position:absolute;top:18px;right:18px;border:0;background:#1f2430;color:#d7dce3;border-radius:10px;padding:.35rem .55rem;cursor:pointer}
 
+/*Modal headings text color lighter*/
+.modal .modal-dialog h3,
+.modal .modal-dialog .h3,
+.modal .modal-dialog h4,
+.modal .modal-dialog .h4,
+.modal .modal-dialog .modal-head h3,
+.modal .modal-dialog .modal-head .h3,
+.modal .modal-dialog .callout-title {
+  color: #f3f4f6; /* near-white for improved contrast; swap to #fff if you prefer pure white */
+  -webkit-font-smoothing: antialiased;
+  text-shadow: none;
+}
+
 /* Modal field alignment / overflow fix */
 .modal .stack > input,
 .modal .stack > select,
