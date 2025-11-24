@@ -130,7 +130,7 @@ img{max-width:100%;display:block}
 .service-card:hover::before{ opacity:1; }
 
 .service-card .thumb{
-  height:140px; background-size:cover; background-position:center;
+  height:140px; background-size:cover; background-position:center; border-radius:16px 16px 0 0; overflow:hidden;
   opacity:.9; filter:saturate(90%) contrast(105%); margin-bottom:.5rem; display:block;
 }
 .service-card .h4{margin:0 1rem .25rem; padding-top:.25rem}
