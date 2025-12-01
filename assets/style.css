@@ -1,6 +1,5 @@
 :root{
   --navy:#0a1b2a; --slate:#3a4a5b; --bg:#0f1115; --card:#15181f; --gold:#c9a44a; --line:#2a2f38;
-  --hero: url('images/hero.jpg');
   --card-border: 2px; /* thicker service card borders */
 }
 
@@ -43,7 +42,7 @@ img{max-width:100%;display:block}
   radial-gradient(50% 50% at 90% 20%, rgba(10,27,42,.35), transparent 60%),
   linear-gradient(120deg, #0b1e2f, #091523 60%, #0b1e2f);
   animation:gradientShift 18s ease-in-out infinite}
-.hero-photo{position:absolute;inset:0;background-image:var(--hero);background-size:cover;background-position:center;opacity:.28;mix-blend:screen;filter:saturate(90%)}
+.hero-photo{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.28;mix-blend:screen;filter:saturate(90%)}
 @keyframes gradientShift{0%{filter:hue-rotate(0) brightness(1)}50%{filter:hue-rotate(8deg) brightness(1.03)}100%{filter:hue-rotate(0) brightness(1)}}
 .hero-inner{position:relative;z-index:1;text-align:center;padding:6rem 1rem;color:#e6edf6}
 .hero-title{margin:0 0 .75rem}
