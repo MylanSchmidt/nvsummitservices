@@ -1,4 +1,4 @@
-// Everything here stays the same; this script works for both index.html and handhlegal.html
+// Main site JavaScript - handles navigation, modals, and form submissions
 
 const navToggle=document.querySelector('[data-nav-toggle]');
 const navList=document.querySelector('[data-nav]');
