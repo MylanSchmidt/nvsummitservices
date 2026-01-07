@@ -195,3 +195,141 @@ document.querySelectorAll('dialog').forEach(dlg => {
   });
 });
 
+
+// ============================================
+// STRIPE PAYMENT LINKS FOR CLASS REGISTRATION
+// ============================================
+
+// Override the existing modal open behavior for class registration
+document.querySelectorAll('[data-open="class-register-modal"]').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    // Prevent the default modal opening
+    e.stopImmediatePropagation();
+    
+    // Get class details
+    const className = this.getAttribute('data-class') || '';
+    const classDate = this.getAttribute('data-date') || '';
+    const paymentLink = this.getAttribute('data-payment-link') || '';
+    
+    // Store in sessionStorage so it persists after Stripe redirect
+    sessionStorage.setItem('selectedClass', JSON.stringify({
+      name: className,
+      date: classDate,
+      paymentLink: paymentLink
+    }));
+    
+    // ALSO store in localStorage as backup
+    localStorage.setItem('pendingClassRegistration', JSON.stringify({
+      name: className,
+      date: classDate,
+      timestamp: Date.now()
+    }));
+    
+    // Update modal content
+    document.getElementById('modal-class-name').textContent = className;
+    document.getElementById('modal-class-date').textContent = classDate;
+    document.getElementById('stripe-payment-button').href = paymentLink;
+    
+    // Store in hidden form fields
+    document.getElementById('form-class-name').value = className;
+    document.getElementById('form-class-date').value = classDate;
+    
+    // Check if returning from payment
+    checkForPaymentReturn();
+    
+    // Open the modal
+    const modal = document. getElementById('class-register-modal');
+    if (modal) modal.showModal();
+  });
+});
+
+// Check if user is returning from Stripe payment
+function checkForPaymentReturn() {
+  const urlParams = new URLSearchParams(window.location. search);
+  const paymentStatus = urlParams.get('payment');
+  const sessionId = urlParams.get('session_id');
+  
+  if (paymentStatus === 'success' && sessionId) {
+    // Show registration form, hide payment section
+    document. getElementById('payment-required-section').style.display = 'none';
+    document.getElementById('registration-form-section').style.display = 'block';
+    
+    // Store session ID in hidden field
+    document.getElementById('stripe-session-id').value = sessionId;
+    
+    // Try to retrieve class info from sessionStorage first
+    let classData = null;
+    const storedClass = sessionStorage.getItem('selectedClass');
+    
+    if (storedClass) {
+      classData = JSON.parse(storedClass);
+    } else {
+      // Fallback to localStorage
+      const localData = localStorage.getItem('pendingClassRegistration');
+      if (localData) {
+        const parsed = JSON.parse(localData);
+        // Only use if less than 10 minutes old
+        if (Date.now() - parsed.timestamp < 600000) {
+          classData = parsed;
+        }
+      }
+    }
+    
+    if (classData) {
+      // Update modal display
+      const modalClassName = document.getElementById('modal-class-name');
+      const modalClassDate = document.getElementById('modal-class-date');
+      const formClassName = document.getElementById('form-class-name');
+      const formClassDate = document.getElementById('form-class-date');
+      
+      if (modalClassName) modalClassName.textContent = classData.name;
+      if (modalClassDate) modalClassDate.textContent = classData.date;
+      if (formClassName) formClassName.value = classData.name;
+      if (formClassDate) formClassDate.value = classData.date;
+      
+      console.log('✅ Class data restored successfully:', classData);
+    } else {
+      console.error('❌ No class data found - this should not happen');
+    }
+    
+    // Clean up URL without reloading
+    const cleanUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+    
+    return true;
+  }
+  
+  // Show payment section, hide registration form
+  document.getElementById('payment-required-section').style.display = 'block';
+  document.getElementById('registration-form-section').style.display = 'none';
+  
+  return false;
+}
+
+// On page load, check if we're returning from payment
+window.addEventListener('DOMContentLoaded', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentStatus = urlParams. get('payment');
+  const sessionId = urlParams.get('session_id');
+  
+  if (paymentStatus === 'success' && sessionId) {
+    // Auto-open the registration modal
+    const modal = document.getElementById('class-register-modal');
+    if (modal) {
+      // Populate the modal first
+      checkForPaymentReturn();
+      // Then open it
+      setTimeout(() => modal.showModal(), 100);
+    }
+  }
+});
+
+// Clean up storage after successful form submission
+document.getElementById('class-registration-form')?.addEventListener('submit', function(e) {
+  // Clear the stored class data after successful submission
+  setTimeout(() => {
+    sessionStorage. removeItem('selectedClass');
+    localStorage.removeItem('pendingClassRegistration');
+  }, 1000);
+  // The existing form handler in script.js will handle the rest
+});
