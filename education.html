@@ -171,32 +171,32 @@
                         <ul class="class-list">
                             <li>
                                 <button type="button" class="class-link" data-open="class-register-modal"
-                                    data-class="Cracking the Code - Understanding the Reserve Study"
-                                    data-date="January 29, 2025 | 1-4 pm">
+                                    data-class="Cracking the Code - Understanding the Reserve Study" data-date="January 29, 2025 | 1-4 pm"
+                                    data-payment-link="https://buy.stripe.com/8x2eVdfKc3oh87R7Wn5sA00">
                                     <span class="class-date">January 29, 2025 &bull; 1-4 pm</span>
                                     <span class="class-title">Cracking the Code - Understanding the Reserve Study</span>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" class="class-link" data-open="class-register-modal"
-                                    data-class="Hard to Handle - Chasing the Assessments"
-                                    data-date="February 5, 2025 | 9-12 pm">
+                                    data-class="Hard to Handle - Chasing the Assessments" data-date="February 5, 2025 | 9-12 pm"
+                                    data-payment-link="https://buy.stripe.com/8x2eVdfKc3oh87R7Wn5sA00">
                                     <span class="class-date">February 5, 2025 &bull; 9-12 pm</span>
                                     <span class="class-title">Hard to Handle - Chasing the Assessments</span>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" class="class-link" data-open="class-register-modal"
-                                    data-class="Meeting Magic - All about meetings"
-                                    data-date="February 11, 2025 | 1-4 pm">
+                                    data-class="Meeting Magic - All about meetings" data-date="February 11, 2025 | 1-4 pm"
+                                    data-payment-link="https://buy.stripe.com/8x2eVdfKc3oh87R7Wn5sA00">
                                     <span class="class-date">February 11, 2025 &bull; 1-4 pm</span>
                                     <span class="class-title">Meeting Magic - All about meetings</span>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" class="class-link" data-open="class-register-modal"
-                                    data-class="Cracking the Code - Understanding the Reserve Study"
-                                    data-date="February 24, 2025 | 1-4 pm">
+                                    data-class="Cracking the Code - Understanding the Reserve Study" data-date="February 24, 2025 | 1-4 pm"
+                                    data-payment-link="https://buy.stripe.com/8x2eVdfKc3oh87R7Wn5sA00">
                                     <span class="class-date">February 24, 2025 &bull; 1-4 pm</span>
                                     <span class="class-title">Cracking the Code - Understanding the Reserve Study</span>
                                 </button>
@@ -312,24 +312,57 @@
     <dialog class="modal" id="class-register-modal" aria-labelledby="class-register-title">
         <div class="modal-dialog" role="document">
             <button class="modal-close" data-close aria-label="Close">✕</button>
-            <h3 class="h3" id="class-register-title">Class Registration | $25 per CEU</h3>
-            <p style="margin-bottom:.75rem; color:  #e7eaee;">
-                We’ll confirm your seat and send details by email.
-            </p>
-            <form class="stack" method="POST" action="https://api.web3forms.com/submit">
-                <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
-
-                <input type="text" name="Name" placeholder="Your Name" required>
-                <input type="email" name="Email" placeholder="Email" required>
-                <input type="text" name="Association or Company" placeholder="Association or Company" required>
-
-                <input type="text" name="Class" placeholder="Selected Class" readonly>
-                <input type="text" name="Date" placeholder="Class Date" readonly>
-
-                <textarea name="Notes" rows="4" placeholder="Any notes or special accomodations"></textarea>
-
-                <button class="btn btn-primary" type="submit">Submit Registration</button>
-            </form>
+            <h3 class="h3" id="class-register-title">Class Registration</h3>
+    
+            <div class="class-details"
+                style="background:  rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1. 5rem;">
+                <p style="margin:  0 0 0.5rem 0;"><strong id="modal-class-name">Class Name</strong></p>
+                <p style="margin: 0 0 0.5rem 0; opacity: 0.85;" id="modal-class-date">Date</p>
+                <p style="margin: 0; font-size: 1.5rem; color: #d4af37;"><strong>$75.00</strong></p>
+                <p style="margin: 0. 5rem 0 0 0; font-size: 0.875rem; opacity: 0.7;">3 NRED-approved CE credits</p>
+            </div>
+    
+            <!-- Payment Required Notice -->
+            <div id="payment-required-section">
+                <p style="margin-bottom: 1rem; color:  #e7eaee;">
+                    <strong>Step 1 of 2:</strong> Complete payment to reserve your seat
+                </p>
+                <p style="margin-bottom: 1. 5rem; font-size: 0.875rem; opacity: 0.8;">
+                    After payment, you'll return here to complete your registration details.
+                </p>
+                <a href="#" id="stripe-payment-button" class="btn btn-primary"
+                    style="display: inline-block; text-decoration: none; width: 100%; text-align: center;">
+                    Pay $75 with Stripe →
+                </a>
+                <p style="margin-top:  1rem; font-size:  0.875rem; opacity: 0.6; text-align: center;">
+                    🔒 Secure payment powered by Stripe
+                </p>
+            </div>
+    
+            <!-- Registration Form (shown after payment) -->
+            <div id="registration-form-section" style="display: none;">
+                <p
+                    style="margin-bottom: 1rem; padding: 1rem; background: rgba(74, 222, 128, 0.1); border-left: 3px solid #4ade80; border-radius: 4px; color: #4ade80;">
+                    ✓ Payment confirmed! Please complete your registration below.
+                </p>
+                <form class="stack" method="POST" action="https://api.web3forms.com/submit" id="class-registration-form">
+                    <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
+                    <input type="hidden" name="Stripe Session ID" id="stripe-session-id">
+                    <input type="hidden" name="Class" id="form-class-name">
+                    <input type="hidden" name="Date" id="form-class-date">
+                    <input type="hidden" name="Amount Paid" value="$75.00">
+    
+                    <input type="text" name="Name" placeholder="Your Name" required>
+                    <input type="email" name="Email" placeholder="Email Address" required>
+                    <input type="text" name="Association or Company" placeholder="Association or Company" required>
+                    <input type="text" name="License Number" placeholder="Nevada CM License Number (if applicable)">
+    
+                    <textarea name="Notes" rows="3" placeholder="Any notes or special accommodations"></textarea>
+    
+                    <button class="btn btn-primary" type="submit">Complete Registration</button>
+                </form>
+            </div>
+    
         </div>
     </dialog>
 
