@@ -425,6 +425,20 @@ textarea:focus,input:focus,select:focus{outline:2px solid color-mix(in srgb, var
   text-shadow: none;
 }
 
+/* Ensure dialog content inherits your dark-theme text color */
+dialog.modal,
+.modal .modal-dialog {
+  color: #e7eaee; /* matches your body color */
+}
+
+/* Optional: ensure common text elements inherit it */
+.modal .modal-dialog p,
+.modal .modal-dialog li,
+.modal .modal-dialog span,
+.modal .modal-dialog label {
+  color: inherit;
+}
+
 /* Modal field alignment / overflow fix */
 .modal .stack > input,
 .modal .stack > select,
