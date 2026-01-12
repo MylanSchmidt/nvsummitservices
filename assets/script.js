@@ -361,17 +361,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const dateInput = document.getElementById('last-study-date');
   
   if (dateInput && typeof flatpickr !== 'undefined') {
-    const fp = flatpickr(dateInput, {
+    const fpInstance = flatpickr(dateInput, {
       dateFormat: "m/d/Y",
+      allowInput: true,
       maxDate: "today",
-      disableMobile: false,
-      allowInput: true,  // Allow typing but validate
       clickOpens: true,
-      // Open calendar on focus as well
-      onOpen: function() {
-        console.log('📅 Flatpickr calendar opened');
-      },
-      // Clear button
       onReady: function(selectedDates, dateStr, instance) {
         const clearBtn = document.createElement("button");
         clearBtn.innerHTML = "Clear";
@@ -381,19 +375,21 @@ document.addEventListener('DOMContentLoaded', function() {
           instance.clear();
         });
         instance.calendarContainer.appendChild(clearBtn);
+        
+        console.log('✅ Flatpickr initialized on date field');
+      },
+      onChange: function(selectedDates, dateStr, instance) {
+        console.log('📅 Date selected:', dateStr);
       }
     });
     
-    // Make sure clicking on the input opens the calendar
+    // Add explicit click handler to ensure calendar opens
     dateInput.addEventListener('click', function() {
-      fp.open();
+      if (fpInstance) {
+        fpInstance.open();
+      }
     });
-    
-    console.log('✅ Flatpickr initialized successfully');
   } else {
-    console.error('❌ Flatpickr not initialized:', {
-      dateInput: !!dateInput,
-      flatpickrAvailable: typeof flatpickr !== 'undefined'
-    });
+    console.error('❌ Flatpickr not initialized - check if library loaded');
   }
 });
