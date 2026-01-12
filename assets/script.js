@@ -342,88 +342,85 @@ document.getElementById('class-registration-form')?.addEventListener('submit', f
 document.addEventListener('DOMContentLoaded', function() {
   const dateInput = document.getElementById('last-study-date');
   
-  if (!dateInput) return;
-  
-  dateInput.addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
-    let formatted = '';
-    
-    if (value.length === 0) {
-      e.target.value = '';
-      return;
-    }
-    
-    // Month (first 1-2 digits)
-    if (value.length === 1) {
-      // Single digit month: pad and add slash
-      formatted = '0' + value + '/';
-    } else if (value.length >= 2) {
-      // Two digit month
-      let month = value.substring(0, 2);
-      formatted = month + '/';
-      
-      // Day (next 1-2 digits)
-      if (value.length === 3) {
-        // Single digit day: pad and add slash
-        let day = value.substring(2, 3);
-        formatted += '0' + day + '/';
-      } else if (value.length >= 4) {
-        // Two digit day
-        let day = value.substring(2, 4);
-        formatted += day + '/';
-        
-        // Year (remaining digits, up to 4)
-        if (value.length > 4) {
-          let year = value.substring(4, Math.min(8, value.length));
-          
-          // Auto-expand 2-digit year to 4-digit (assume 2000s)
-          if (year.length === 2) {
-            year = '20' + year;
+  if (dateInput) {
+    dateInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+      let formattedValue = '';
+
+      if (value.length > 0) {
+        // Month Logic (limit to 1-12)
+        let month = value.substring(0, 2);
+        if (month.length === 1) {
+          // If first digit is 2-9, it must be a single digit month (02-09)
+          if (parseInt(month) > 1) {
+            month = '0' + month;
+            value = month + value.substring(1);
           }
-          formatted += year;
+        } else if (month.length === 2) {
+          // Validate month is between 01-12
+          let monthNum = parseInt(month);
+          if (monthNum > 12) {
+            month = '12'; // Cap at 12
+            value = month + value.substring(2);
+          } else if (monthNum === 0) {
+            month = '01'; // Minimum of 01
+            value = month + value.substring(2);
+          }
+        }
+        
+        if (month.length === 2) {
+          formattedValue += month + '/';
+        } else {
+          formattedValue += month;
+        }
+
+        // Day Logic (limit to 1-31)
+        if (value.length > 2) {
+          let day = value.substring(2, 4);
+          if (day.length === 1) {
+            // If first digit is 4-9, it must be single digit day (04-09)
+            if (parseInt(day) > 3) {
+              day = '0' + day;
+              value = value.substring(0, 2) + day + value.substring(3);
+            }
+          } else if (day.length === 2) {
+            // Validate day is between 01-31
+            let dayNum = parseInt(day);
+            if (dayNum > 31) {
+              day = '31'; // Cap at 31
+              value = value.substring(0, 2) + day + value.substring(4);
+            } else if (dayNum === 0) {
+              day = '01'; // Minimum of 01
+              value = value.substring(0, 2) + day + value.substring(4);
+            }
+          }
+          
+          if (day.length === 2) {
+            formattedValue += day + '/';
+          } else {
+            formattedValue += day;
+          }
+        }
+
+        // Year Logic
+        if (value.length > 4) {
+          let year = value.substring(4, 8);
+          formattedValue += year;
         }
       }
-    }
-    
-    e.target.value = formatted;
-  });
-  
-  // Handle backspace for slashes
-  dateInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Backspace') {
-      const value = e.target.value;
-      if (value.endsWith('/')) {
-        e.preventDefault();
-        e.target.value = value.slice(0, -1);
+
+      e.target.value = formattedValue;
+    });
+
+    // Handle backspace properly to prevent getting stuck on slashes
+    dateInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace') {
+        const val = e.target.value;
+        if (val.endsWith('/')) {
+          e.preventDefault();
+          e.target.value = val.substring(0, val.length - 1);
+        }
       }
-    }
-  });
-  
-  // Validate on blur
-  dateInput.addEventListener('blur', function(e) {
-    const value = e.target.value;
-    if (value.length === 10) {
-      const parts = value.split('/');
-      const month = parseInt(parts[0]);
-      const day = parseInt(parts[1]);
-      const year = parseInt(parts[2]);
-      
-      // Create a date object and check if it's valid
-      const date = new Date(year, month - 1, day);
-      const isValidDate = date.getFullYear() === year && 
-                          date.getMonth() === month - 1 && 
-                          date.getDate() === day;
-      
-      // Check if date is in valid range
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const isNotFuture = date <= today;
-      const isNotTooOld = year >= 1900;
-      
-      if (!isValidDate || !isNotFuture || !isNotTooOld) {
-        alert('Please enter a valid date (MM/DD/YYYY)');
-        e.target.value = '';
-      }
-    }
-  });
+    });
+  }
 });
