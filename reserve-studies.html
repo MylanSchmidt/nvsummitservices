@@ -23,6 +23,9 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
     <!-- Styles -->
     <link rel="stylesheet" href="assets/style.css" />
 </head>
@@ -190,17 +193,28 @@
                 <input type="text" name="Association" placeholder="Association Name" required>
                 <input type="text" name="Address" placeholder="Address" required>
                 <input type="text" name="# Of Units" placeholder="# Of Units" required>
-                <select name="Gated" required>
-                    <option value="">Community Gated?</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-                <select name="Private Streets" required>
-                    <option value="">Private Streets?</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-                <input type="text" name="Last Study" class="date-placeholder" placeholder="Date of Last Full Study" required>
+                
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span>Community Gated?</span>
+                    <label style="display: flex; align-items: center; gap: 0.25rem;">
+                        <input type="radio" name="Gated" value="Yes" required> Yes
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.25rem;">
+                        <input type="radio" name="Gated" value="No"> No
+                    </label>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span>Private Streets?</span>
+                    <label style="display: flex; align-items: center; gap: 0.25rem;">
+                        <input type="radio" name="Private Streets" value="Yes" required> Yes
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.25rem;">
+                        <input type="radio" name="Private Streets" value="No"> No
+                    </label>
+                </div>
+                
+                <input type="text" id="last-study-date" name="Last Study" placeholder="Date of Last Full Study (MM/DD/YYYY)" required>
                 <input type="email" name="Email" placeholder="Email For Bid" required>
                 <input type="tel" name="Phone" placeholder="Phone Number">
                 <h4 class="h4">&nbsp;&nbsp;Select Study Level or Inquire About Free Reviews</h4>
@@ -216,10 +230,9 @@
         </div>
     </dialog>
 
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="assets/script.js" defer></script>
 </body>
 
-
-
 </html>
-
