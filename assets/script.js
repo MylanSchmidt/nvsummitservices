@@ -348,34 +348,35 @@ document.addEventListener('DOMContentLoaded', function() {
     let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
     let formatted = '';
     
-    // Format as MM/DD/YYYY
-    if (value.length > 0) {
-      // Month
-      let month = value.substring(0, 2);
-      if (month.length === 1) {
-        // Auto-pad single digit months (1-9 -> 01-09)
-        month = '0' + month;
-      }
-      formatted = month + '/';
+    if (value.length === 0) {
+      e.target.value = '';
+      return;
+    }
+    
+    // Month (first digit only, always pad to 2 digits)
+    let month = value.substring(0, 1);
+    month = '0' + month;
+    formatted = month;
+    
+    if (value.length > 1) {
+      formatted += '/';
       
-      if (value.length >= 2) {
-        // Day
-        let day = value.substring(2, 4);
-        if (day.length === 1) {
-          // Auto-pad single digit days (1-9 -> 01-09)
-          day = '0' + day;
-        }
-        formatted += day + '/';
+      // Day (second digit, pad to 2 digits)
+      let day = value.substring(1, 2);
+      day = '0' + day;
+      formatted += day;
+      
+      if (value.length > 2) {
+        formatted += '/';
         
-        if (value.length >= 4) {
-          // Year (convert 2-digit to 4-digit)
-          let year = value.substring(4, 8);
-          if (year.length === 2) {
-            // Assume 2000s for 2-digit years
-            year = '20' + year;
-          }
-          formatted += year;
+        // Year (remaining digits, up to 4)
+        let year = value.substring(2, Math.min(6, value.length));
+        
+        // Auto-expand 2-digit year to 4-digit (assume 2000s)
+        if (year.length === 2) {
+          year = '20' + year;
         }
+        formatted += year;
       }
     }
     
