@@ -348,27 +348,53 @@ document.addEventListener('DOMContentLoaded', function() {
       let formattedValue = '';
 
       if (value.length > 0) {
-        // Month Logic
+        // Month Logic (limit to 1-12)
         let month = value.substring(0, 2);
-        if (month.length === 1 && parseInt(month) > 1) {
+        if (month.length === 1) {
           // If first digit is 2-9, it must be a single digit month (02-09)
-          month = '0' + month;
-          value = month + value.substring(1); 
+          if (parseInt(month) > 1) {
+            month = '0' + month;
+            value = month + value.substring(1);
+          }
+        } else if (month.length === 2) {
+          // Validate month is between 01-12
+          let monthNum = parseInt(month);
+          if (monthNum > 12) {
+            month = '12'; // Cap at 12
+            value = month + value.substring(2);
+          } else if (monthNum === 0) {
+            month = '01'; // Minimum of 01
+            value = month + value.substring(2);
+          }
         }
+        
         if (month.length === 2) {
           formattedValue += month + '/';
         } else {
           formattedValue += month;
         }
 
-        // Day Logic
+        // Day Logic (limit to 1-31)
         if (value.length > 2) {
           let day = value.substring(2, 4);
-          if (day.length === 1 && parseInt(day) > 3) {
-            // If first digit of day is 4-9, it must be single digit day (04-09)
-            day = '0' + day;
-            value = value.substring(0, 2) + day + value.substring(3);
+          if (day.length === 1) {
+            // If first digit is 4-9, it must be single digit day (04-09)
+            if (parseInt(day) > 3) {
+              day = '0' + day;
+              value = value.substring(0, 2) + day + value.substring(3);
+            }
+          } else if (day.length === 2) {
+            // Validate day is between 01-31
+            let dayNum = parseInt(day);
+            if (dayNum > 31) {
+              day = '31'; // Cap at 31
+              value = value.substring(0, 2) + day + value.substring(4);
+            } else if (dayNum === 0) {
+              day = '01'; // Minimum of 01
+              value = value.substring(0, 2) + day + value.substring(4);
+            }
           }
+          
           if (day.length === 2) {
             formattedValue += day + '/';
           } else {
@@ -391,6 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.key === 'Backspace') {
         const val = e.target.value;
         if (val.endsWith('/')) {
+          e.preventDefault();
           e.target.value = val.substring(0, val.length - 1);
         }
       }
