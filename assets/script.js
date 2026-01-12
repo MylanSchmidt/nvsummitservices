@@ -351,3 +351,37 @@ document.querySelectorAll('input.date-placeholder').forEach(input => {
     }
   });
 });
+
+// ============================================
+// FLATPICKR INITIALIZATION FOR RESERVE STUDIES
+// ============================================
+
+// Initialize Flatpickr on the reserve study date field
+document.addEventListener('DOMContentLoaded', function() {
+  const dateInput = document.getElementById('last-study-date');
+  
+  if (dateInput && typeof flatpickr !== 'undefined') {
+    flatpickr(dateInput, {
+      dateFormat: "m/d/Y",
+      altInput: true,
+      altFormat: "F j, Y",
+      allowInput: true,
+      maxDate: "today",
+      // Theme and UX enhancements
+      disableMobile: false,
+      clickOpens: true,
+      // Clear button
+      onReady: function(selectedDates, dateStr, instance) {
+        // Add a clear button
+        const clearBtn = document.createElement("button");
+        clearBtn.innerHTML = "Clear";
+        clearBtn.type = "button";
+        clearBtn.className = "flatpickr-clear-btn";
+        clearBtn.addEventListener("click", function() {
+          instance.clear();
+        });
+        instance.calendarContainer.appendChild(clearBtn);
+      }
+    });
+  }
+});
