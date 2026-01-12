@@ -350,32 +350,31 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Format as MM/DD/YYYY
     if (value.length > 0) {
-      // Month (pad single digit)
+      // Month
       let month = value.substring(0, 2);
-      if (month.length === 1 && parseInt(month) > 1) {
+      if (month.length === 1) {
+        // Auto-pad single digit months (1-9 -> 01-09)
         month = '0' + month;
       }
-      formatted = month;
+      formatted = month + '/';
       
       if (value.length >= 2) {
-        // Day (pad single digit)
+        // Day
         let day = value.substring(2, 4);
-        if (day.length === 1 && parseInt(day) > 3) {
+        if (day.length === 1) {
+          // Auto-pad single digit days (1-9 -> 01-09)
           day = '0' + day;
         }
-        formatted += '/' + day;
+        formatted += day + '/';
         
         if (value.length >= 4) {
           // Year (convert 2-digit to 4-digit)
           let year = value.substring(4, 8);
           if (year.length === 2) {
-            let yearNum = parseInt(year);
-            // If 2-digit year, assume 2000s
-            if (yearNum >= 0 && yearNum <= 99) {
-              year = '20' + year;
-            }
+            // Assume 2000s for 2-digit years
+            year = '20' + year;
           }
-          formatted += '/' + year;
+          formatted += year;
         }
       }
     }
