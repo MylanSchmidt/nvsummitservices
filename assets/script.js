@@ -361,12 +361,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const dateInput = document.getElementById('last-study-date');
   
   if (dateInput && typeof flatpickr !== 'undefined') {
-    flatpickr(dateInput, {
+    const fpInstance = flatpickr(dateInput, {
       dateFormat: "m/d/Y",
+      allowInput: true,
       maxDate: "today",
-      disableMobile: false,
       clickOpens: true,
-      // Clear button
       onReady: function(selectedDates, dateStr, instance) {
         // Add a clear button
         const clearBtn = document.createElement("button");
@@ -377,7 +376,21 @@ document.addEventListener('DOMContentLoaded', function() {
           instance.clear();
         });
         instance.calendarContainer.appendChild(clearBtn);
+        
+        console.log('✅ Flatpickr initialized on date field');
+      },
+      onChange: function(selectedDates, dateStr, instance) {
+        console.log('📅 Date selected:', dateStr);
       }
     });
+    
+    // Add explicit click handler to ensure calendar opens
+    dateInput.addEventListener('click', function() {
+      if (fpInstance) {
+        fpInstance.open();
+      }
+    });
+  } else {
+    console.error('❌ Flatpickr not initialized - check if library loaded');
   }
 });
