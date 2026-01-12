@@ -190,9 +190,17 @@
                 <input type="text" name="Association" placeholder="Association Name" required>
                 <input type="text" name="Address" placeholder="Address" required>
                 <input type="text" name="# Of Units" placeholder="# Of Units" required>
-                <input type="text" name="Gated" placeholder="Community Gated?" required>
-                <input type="text" name="Private Streets" placeholder="Private Streets?" required>
-                <input type="date" name="Last Study" placeholder="Date of Last Study" required>
+                <select name="Gated" required>
+                    <option value="">Community Gated?</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <select name="Private Streets" required>
+                    <option value="">Private Streets?</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <input type="text" name="Last Study" class="date-placeholder" placeholder="Date of Last Full Study" required>
                 <input type="email" name="Email" placeholder="Email For Bid" required>
                 <input type="tel" name="Phone" placeholder="Phone Number">
                 <h4 class="h4">&nbsp;&nbsp;Select Study Level or Inquire About Free Reviews</h4>
@@ -214,5 +222,3 @@
 
 
 </html>
-
-

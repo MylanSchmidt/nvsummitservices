@@ -238,20 +238,20 @@ document.querySelectorAll('[data-open="class-register-modal"]').forEach(btn => {
     checkForPaymentReturn();
     
     // Open the modal
-    const modal = document. getElementById('class-register-modal');
+    const modal = document.getElementById('class-register-modal');
     if (modal) modal.showModal();
   });
 });
 
 // Check if user is returning from Stripe payment
 function checkForPaymentReturn() {
-  const urlParams = new URLSearchParams(window.location. search);
+  const urlParams = new URLSearchParams(window.location.search);
   const paymentStatus = urlParams.get('payment');
   const sessionId = urlParams.get('session_id');
   
   if (paymentStatus === 'success' && sessionId) {
     // Show registration form, hide payment section
-    document. getElementById('payment-required-section').style.display = 'none';
+    document.getElementById('payment-required-section').style.display = 'none';
     document.getElementById('registration-form-section').style.display = 'block';
     
     // Store session ID in hidden field
@@ -309,7 +309,7 @@ function checkForPaymentReturn() {
 // On page load, check if we're returning from payment
 window.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(window.location.search);
-  const paymentStatus = urlParams. get('payment');
+  const paymentStatus = urlParams.get('payment');
   const sessionId = urlParams.get('session_id');
   
   if (paymentStatus === 'success' && sessionId) {
@@ -328,8 +328,26 @@ window.addEventListener('DOMContentLoaded', function() {
 document.getElementById('class-registration-form')?.addEventListener('submit', function(e) {
   // Clear the stored class data after successful submission
   setTimeout(() => {
-    sessionStorage. removeItem('selectedClass');
+    sessionStorage.removeItem('selectedClass');
     localStorage.removeItem('pendingClassRegistration');
   }, 1000);
   // The existing form handler in script.js will handle the rest
+});
+
+
+// ============================================
+// DATE INPUT PLACEHOLDER FUNCTIONALITY
+// ============================================
+
+// Handle date inputs with placeholder text
+document.querySelectorAll('input.date-placeholder').forEach(input => {
+  input.addEventListener('focus', function() {
+    this.type = 'date';
+  });
+  
+  input.addEventListener('blur', function() {
+    if (!this.value) {
+      this.type = 'text';
+    }
+  });
 });
