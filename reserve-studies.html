@@ -188,6 +188,8 @@
             <form class="stack" method="POST" action="https://api.web3forms.com/submit">
                 <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
                 <input type="text" name="Name" placeholder="Your Name" required>
+                <input type="email" name="Email" placeholder="Email" required>
+                <input type="tel" name="Phone" placeholder="Phone Number" required>
                 <input type="text" name="Association" placeholder="Association Name" required>
                 <input type="text" name="Address" placeholder="Association Address" required>
                 <input type="text" name="# Of Units" placeholder="# Of Units">
@@ -212,9 +214,8 @@
                     </label>
                 </div>
                 
-                <input type="text" id="last-study-date" name="Last Study" placeholder="Last Full Study (MM/DD/YYYY)" maxlength="10" inputmode="numeric" autocomplete="off">
+                <input type="text" id="last-study-date" name="lastStudy" placeholder="Last Full Study (MM/DD/YYYY)" maxlength="10" inputmode="numeric" autocomplete="off">
                 <input type="text" name="Where" placeholder="Where to Send Bid?" required>
-                <input type="tel" name="Phone" placeholder="Phone Number" required>
                 <h4 class="h4">&nbsp;&nbsp;Select Study Level or Inquire About Free Reviews</h4>
                 <select name="Type of Study">
                     <option>Free Review Inquiry</option>
