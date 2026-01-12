@@ -214,6 +214,58 @@
     </div>
   </footer>
 
+  <!-- Modals -->
+  <dialog class="modal" id="reserve-modal" aria-labelledby="reserve-title">
+    <div class="modal-dialog" role="document">
+      <button class="modal-close" data-close aria-label="Close">✕</button>
+      <h3 class="h3" id="reserve-title">Reserve Study Proposal</h3>
+      <form class="stack" method="POST" action="https://api.web3forms.com/submit">
+        <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
+        <input type="text" name="Name" placeholder="Your Name" required>
+        <input type="text" name="Association" placeholder="Association Name" required>
+        <input type="text" name="Address" placeholder="Address" required>
+        <input type="tel" name="Phone" placeholder="Phone Number">
+        <h4>&nbsp;&nbsp;Select Study Level or Inquire About Free Reviews</h4>
+        <select name="Type of Study">
+          <option>Free Review Inquiry</option>
+          <option>Level 1</option>
+          <option>Level 2</option>
+          <option>Level 3</option>
+          <option>Level 4</option>
+        </select>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="education-modal" aria-labelledby="education-title">
+    <div class="modal-dialog" role="document">
+      <button class="modal-close" data-close aria-label="Close">✕</button>
+      <h3 class="h3" id="education-title">Education Inquiry</h3>
+      <form class="stack" method="POST" action="https://api.web3forms.com/submit">
+        <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
+        <input type="text" name="Name" placeholder="Your Name" required>
+        <input type="email" name="Email" placeholder="Email">
+        <textarea name="Notes" rows="4" placeholder="Notes"></textarea>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="consulting-modal" aria-labelledby="consulting-title">
+    <div class="modal-dialog" role="document">
+      <button class="modal-close" data-close aria-label="Close">✕</button>
+      <h3 class="h3" id="consulting-title">Consulting Inquiry</h3>
+      <form class="stack" method="POST" action="https://api.web3forms.com/submit">
+        <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
+        <input type="text" name="Name" placeholder="Your Name" required>
+        <input type="email" name="Email" placeholder="Email">
+        <textarea name="Notes" rows="4" placeholder="Notes"></textarea>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </form>
+    </div>
+  </dialog>
+
   <script src="assets/script.js" defer></script>
 </body>
 
