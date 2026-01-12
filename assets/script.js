@@ -353,30 +353,35 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    // Month (first digit only, always pad to 2 digits)
-    let month = value.substring(0, 1);
-    month = '0' + month;
-    formatted = month;
-    
-    if (value.length > 1) {
-      formatted += '/';
+    // Month (first 1-2 digits)
+    if (value.length === 1) {
+      // Single digit month: pad and add slash
+      formatted = '0' + value + '/';
+    } else if (value.length >= 2) {
+      // Two digit month
+      let month = value.substring(0, 2);
+      formatted = month + '/';
       
-      // Day (second digit, pad to 2 digits)
-      let day = value.substring(1, 2);
-      day = '0' + day;
-      formatted += day;
-      
-      if (value.length > 2) {
-        formatted += '/';
+      // Day (next 1-2 digits)
+      if (value.length === 3) {
+        // Single digit day: pad and add slash
+        let day = value.substring(2, 3);
+        formatted += '0' + day + '/';
+      } else if (value.length >= 4) {
+        // Two digit day
+        let day = value.substring(2, 4);
+        formatted += day + '/';
         
         // Year (remaining digits, up to 4)
-        let year = value.substring(2, Math.min(6, value.length));
-        
-        // Auto-expand 2-digit year to 4-digit (assume 2000s)
-        if (year.length === 2) {
-          year = '20' + year;
+        if (value.length > 4) {
+          let year = value.substring(4, Math.min(8, value.length));
+          
+          // Auto-expand 2-digit year to 4-digit (assume 2000s)
+          if (year.length === 2) {
+            year = '20' + year;
+          }
+          formatted += year;
         }
-        formatted += year;
       }
     }
     
