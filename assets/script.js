@@ -336,32 +336,78 @@ document.getElementById('class-registration-form')?.addEventListener('submit', f
 
 
 // ============================================
-// DATE INPUT PLACEHOLDER FUNCTIONALITY
+// AUTO-FORMATTING DATE INPUT FOR RESERVE STUDIES
 // ============================================
 
-// Handle date inputs with placeholder text
-document.querySelectorAll('input.date-placeholder').forEach(input => {
-  input.addEventListener('focus', function() {
-    this.type = 'date';
-  });
-  
-  input.addEventListener('blur', function() {
-    if (!this.value) {
-      this.type = 'text';
-    }
-  });
-});
-
-// ============================================
-// DATE INPUT MAX DATE SETUP
-// ============================================
-
-// Set max date to today for the reserve study date field
 document.addEventListener('DOMContentLoaded', function() {
   const dateInput = document.getElementById('last-study-date');
-  if (dateInput) {
-    // Set max to today's date
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('max', today);
-  }
+  
+  if (!dateInput) return;
+  
+  dateInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+    let formatted = '';
+    
+    // Format as MM/DD/YYYY
+    if (value.length > 0) {
+      // Month (pad single digit)
+      let month = value.substring(0, 2);
+      if (month.length === 1 && parseInt(month) > 1) {
+        month = '0' + month;
+      }
+      formatted = month;
+      
+      if (value.length >= 2) {
+        // Day (pad single digit)
+        let day = value.substring(2, 4);
+        if (day.length === 1 && parseInt(day) > 3) {
+          day = '0' + day;
+        }
+        formatted += '/' + day;
+        
+        if (value.length >= 4) {
+          // Year (convert 2-digit to 4-digit)
+          let year = value.substring(4, 8);
+          if (year.length === 2) {
+            let yearNum = parseInt(year);
+            // If 2-digit year, assume 2000s
+            if (yearNum >= 0 && yearNum <= 99) {
+              year = '20' + year;
+            }
+          }
+          formatted += '/' + year;
+        }
+      }
+    }
+    
+    e.target.value = formatted;
+  });
+  
+  // Handle backspace for slashes
+  dateInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Backspace') {
+      const value = e.target.value;
+      if (value.endsWith('/')) {
+        e.preventDefault();
+        e.target.value = value.slice(0, -1);
+      }
+    }
+  });
+  
+  // Validate on blur
+  dateInput.addEventListener('blur', function(e) {
+    const value = e.target.value;
+    if (value.length === 10) {
+      const parts = value.split('/');
+      const month = parseInt(parts[0]);
+      const day = parseInt(parts[1]);
+      const year = parseInt(parts[2]);
+      
+      // Basic validation
+      if (month < 1 || month > 12 || day < 1 || day > 31 || year < 1900 || year > new Date().getFullYear()) {
+        alert('Please enter a valid date (MM/DD/YYYY)');
+        e.target.value = '';
+      }
+    }
+  });
 });
