@@ -34,19 +34,36 @@ const io=new IntersectionObserver(entries=>{
       io.unobserve(entry.target);
     }}},{threshold:.12});
     document.querySelectorAll('[data-observe]').forEach(el=>io.observe(el));
+
 const openBtns=document.querySelectorAll('[data-open]');
 const closeBtns=document.querySelectorAll('[data-close]');
-openBtns.forEach(btn=>{const id=btn.getAttribute('data-open');
-  const modal=document.getElementById(id);
-  if(!modal)return;
-  btn.addEventListener('click',()=>modal.showModal());
+
+openBtns.forEach(btn=>{
+  const id = btn.getAttribute('data-open');
+  const modal = document.getElementById(id);
+  if(!modal) return;
+
+  btn.addEventListener('click', () => {
+    // Special handling for class registration modal: auto-fill fields
+    if (id === 'class-register-modal') {
+      const cls  = btn.getAttribute('data-class') || '';
+      const date = btn.getAttribute('data-date') || '';
+
+      const classField = modal.querySelector('input[name="Class"]');
+      const dateField  = modal.querySelector('input[name="Date"]');
+
+      if (classField) classField.value = cls;
+      if (dateField)  dateField.value  = date;
+    }
+
+    modal.showModal();
+  });
 });
+
 closeBtns.forEach(btn=>btn.addEventListener('click',()=>{
   document.querySelectorAll('dialog[open]').forEach(m=>m.close());
 }));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')
-  document.querySelectorAll('dialog[open]').forEach(m=>m.close());
-});
+
 
 // Web3Forms AJAX submit with pop-out confirmation for all forms (modals AND inline)
 document.querySelectorAll('form.stack').forEach(form => {
@@ -71,13 +88,25 @@ document.querySelectorAll('form.stack').forEach(form => {
         dialog.close();
       }
 
+      // Is this the Class Registration modal?
+      const isClassRegistration = !!form.closest('#class-register-modal');
+
+      const heading = data.success ? "Thank you!" : "Sorry!";
+      const message = data.success
+        ? (
+            isClassRegistration
+              ? "Thank you for registering.<br>We look forward to seeing you at the class!"
+              : "Your message has been received.<br>We will get back to you soon."
+          )
+        : "There was an error sending your message.<br>Please try again or email us directly.";
+
       // Confirmation message (always outside modal, as pop-out)
       const confirmMsg = document.createElement('div');
       confirmMsg.className = 'form-confirm';
       confirmMsg.innerHTML = `
         <div class="card" style="padding:2rem; text-align:center; position:fixed; left:50%; top:20%; transform:translate(-50%,0); z-index:9999; box-shadow: 0 4px 32px rgba(0,0,0,.16);">
-          <h3 class="h4">${data.success ? "Thank you!" : "Sorry!"}</h3>
-          <p>${data.success ? "Your message has been received.<br>We will get back to you soon." : "There was an error sending your message.<br>Please try again or email us directly."}</p>
+          <h3 class="h4">${heading}</h3>
+          <p>${message}</p>
           <button class="btn btn-primary" onclick="this.parentElement.parentElement.remove()">Close</button>
         </div>
       `;
@@ -101,6 +130,49 @@ document.querySelectorAll('form.stack').forEach(form => {
   });
 });
 
+
+// Make service cards clickable as full tiles, while keeping buttons functional
+document.querySelectorAll('.service-card[data-link]').forEach(function(card) {
+  var target = card.getAttribute('data-link');
+  if (!target) return;
+
+  // Click on empty card area -> navigate
+  card.addEventListener('click', function(e) {
+    // If they clicked on a button or link inside, let that handle itself
+    if (e.target.closest('button, a')) return;
+    
+    // Check if it's an external link (starts with http:// or https://)
+    if (target.startsWith('http://') || target.startsWith('https://')) {
+      window.open(target, '_blank', 'noopener,noreferrer');
+    } else {
+      window.location.href = target;
+    }
+  });
+
+  // Keyboard accessibility (Enter / Space)
+  card.addEventListener('keydown', function(e) {
+    if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('button, a')) {
+      e.preventDefault();
+      
+      // Check if it's an external link
+      if (target.startsWith('http://') || target.startsWith('https://')) {
+        window.open(target, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = target;
+      }
+    }
+  });
+
+  // Make card focusable and announce it as a link
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('role', 'link');
+  var heading = card.querySelector('h3');
+  if (heading && heading.textContent) {
+    card.setAttribute('aria-label', heading.textContent.trim() + ' – learn more');
+  }
+});
+
+
 // Open/close modal (safe, delegated)
 document.addEventListener('click', (e) => {
   const open = e.target.closest('[data-modal]');
@@ -123,18 +195,189 @@ document.querySelectorAll('dialog').forEach(dlg => {
   });
 });
 
-// AJAX submit (keeps user on page)
-document.querySelectorAll('form[action*="api.web3forms.com/submit"]').forEach(form => {
-  if (form.dataset.w3bound) return; form.dataset.w3bound = "1";
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = form.querySelector('[type="submit"]'); const txt = btn?.textContent;
-    if (btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
-    try {
-      const res = await fetch(form.action, { method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form) });
-      if (res.ok){ form.reset(); alert('Thanks! Your request was sent.'); form.closest('dialog')?.close?.(); }
-      else{ alert('Sorry—something went wrong. Please try again or email info@nvsummitservices.com.'); }
-    } catch { alert('Network error. Please try again.'); }
-    finally { if (btn){ btn.disabled = false; btn.textContent = txt || 'Request Demand Letter'; } }
+
+// ============================================
+// STRIPE PAYMENT LINKS FOR CLASS REGISTRATION
+// ============================================
+
+// Override the existing modal open behavior for class registration
+document.querySelectorAll('[data-open="class-register-modal"]').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    // Prevent the default modal opening
+    e.stopImmediatePropagation();
+    
+    // Get class details
+    const className = this.getAttribute('data-class') || '';
+    const classDate = this.getAttribute('data-date') || '';
+    const paymentLink = this.getAttribute('data-payment-link') || '';
+    
+    // Store in sessionStorage so it persists after Stripe redirect
+    sessionStorage.setItem('selectedClass', JSON.stringify({
+      name: className,
+      date: classDate,
+      paymentLink: paymentLink
+    }));
+    
+    // ALSO store in localStorage as backup
+    localStorage.setItem('pendingClassRegistration', JSON.stringify({
+      name: className,
+      date: classDate,
+      timestamp: Date.now()
+    }));
+    
+    // Update modal content
+    document.getElementById('modal-class-name').textContent = className;
+    document.getElementById('modal-class-date').textContent = classDate;
+    document.getElementById('stripe-payment-button').href = paymentLink;
+    
+    // Store in hidden form fields
+    document.getElementById('form-class-name').value = className;
+    document.getElementById('form-class-date').value = classDate;
+    
+    // Check if returning from payment
+    checkForPaymentReturn();
+    
+    // Open the modal
+    const modal = document.getElementById('class-register-modal');
+    if (modal) modal.showModal();
   });
+});
+
+// Check if user is returning from Stripe payment
+function checkForPaymentReturn() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentStatus = urlParams.get('payment');
+  const sessionId = urlParams.get('session_id');
+  
+  if (paymentStatus === 'success' && sessionId) {
+    // Show registration form, hide payment section
+    document.getElementById('payment-required-section').style.display = 'none';
+    document.getElementById('registration-form-section').style.display = 'block';
+    
+    // Store session ID in hidden field
+    document.getElementById('stripe-session-id').value = sessionId;
+    
+    // Try to retrieve class info from sessionStorage first
+    let classData = null;
+    const storedClass = sessionStorage.getItem('selectedClass');
+    
+    if (storedClass) {
+      classData = JSON.parse(storedClass);
+    } else {
+      // Fallback to localStorage
+      const localData = localStorage.getItem('pendingClassRegistration');
+      if (localData) {
+        const parsed = JSON.parse(localData);
+        // Only use if less than 10 minutes old
+        if (Date.now() - parsed.timestamp < 600000) {
+          classData = parsed;
+        }
+      }
+    }
+    
+    if (classData) {
+      // Update modal display
+      const modalClassName = document.getElementById('modal-class-name');
+      const modalClassDate = document.getElementById('modal-class-date');
+      const formClassName = document.getElementById('form-class-name');
+      const formClassDate = document.getElementById('form-class-date');
+      
+      if (modalClassName) modalClassName.textContent = classData.name;
+      if (modalClassDate) modalClassDate.textContent = classData.date;
+      if (formClassName) formClassName.value = classData.name;
+      if (formClassDate) formClassDate.value = classData.date;
+      
+      console.log('✅ Class data restored successfully:', classData);
+    } else {
+      console.error('❌ No class data found - this should not happen');
+    }
+    
+    // Clean up URL without reloading
+    const cleanUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+    
+    return true;
+  }
+  
+  // Show payment section, hide registration form
+  document.getElementById('payment-required-section').style.display = 'block';
+  document.getElementById('registration-form-section').style.display = 'none';
+  
+  return false;
+}
+
+// On page load, check if we're returning from payment
+window.addEventListener('DOMContentLoaded', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentStatus = urlParams.get('payment');
+  const sessionId = urlParams.get('session_id');
+  
+  if (paymentStatus === 'success' && sessionId) {
+    // Auto-open the registration modal
+    const modal = document.getElementById('class-register-modal');
+    if (modal) {
+      // Populate the modal first
+      checkForPaymentReturn();
+      // Then open it
+      setTimeout(() => modal.showModal(), 100);
+    }
+  }
+});
+
+// Clean up storage after successful form submission
+document.getElementById('class-registration-form')?.addEventListener('submit', function(e) {
+  // Clear the stored class data after successful submission
+  setTimeout(() => {
+    sessionStorage.removeItem('selectedClass');
+    localStorage.removeItem('pendingClassRegistration');
+  }, 1000);
+  // The existing form handler in script.js will handle the rest
+});
+
+
+// ============================================
+// DATE INPUT PLACEHOLDER FUNCTIONALITY
+// ============================================
+
+// Handle date inputs with placeholder text
+document.querySelectorAll('input.date-placeholder').forEach(input => {
+  input.addEventListener('focus', function() {
+    this.type = 'date';
+  });
+  
+  input.addEventListener('blur', function() {
+    if (!this.value) {
+      this.type = 'text';
+    }
+  });
+});
+
+// ============================================
+// FLATPICKR INITIALIZATION FOR RESERVE STUDIES
+// ============================================
+
+// Initialize Flatpickr on the reserve study date field
+document.addEventListener('DOMContentLoaded', function() {
+  const dateInput = document.getElementById('last-study-date');
+  
+  if (dateInput && typeof flatpickr !== 'undefined') {
+    flatpickr(dateInput, {
+      dateFormat: "m/d/Y",
+      maxDate: "today",
+      disableMobile: false,
+      clickOpens: true,
+      // Clear button
+      onReady: function(selectedDates, dateStr, instance) {
+        // Add a clear button
+        const clearBtn = document.createElement("button");
+        clearBtn.innerHTML = "Clear";
+        clearBtn.type = "button";
+        clearBtn.className = "flatpickr-clear-btn";
+        clearBtn.addEventListener("click", function() {
+          instance.clear();
+        });
+        instance.calendarContainer.appendChild(clearBtn);
+      }
+    });
+  }
 });
