@@ -363,11 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (dateInput && typeof flatpickr !== 'undefined') {
     flatpickr(dateInput, {
       dateFormat: "m/d/Y",
-      altInput: true,
-      altFormat: "F j, Y",
-      allowInput: true,
       maxDate: "today",
-      // Theme and UX enhancements
       disableMobile: false,
       clickOpens: true,
       // Clear button
