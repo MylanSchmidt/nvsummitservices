@@ -408,8 +408,19 @@ document.addEventListener('DOMContentLoaded', function() {
       const day = parseInt(parts[1]);
       const year = parseInt(parts[2]);
       
-      // Basic validation
-      if (month < 1 || month > 12 || day < 1 || day > 31 || year < 1900 || year > new Date().getFullYear()) {
+      // Create a date object and check if it's valid
+      const date = new Date(year, month - 1, day);
+      const isValidDate = date.getFullYear() === year && 
+                          date.getMonth() === month - 1 && 
+                          date.getDate() === day;
+      
+      // Check if date is in valid range
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const isNotFuture = date <= today;
+      const isNotTooOld = year >= 1900;
+      
+      if (!isValidDate || !isNotFuture || !isNotTooOld) {
         alert('Please enter a valid date (MM/DD/YYYY)');
         e.target.value = '';
       }
