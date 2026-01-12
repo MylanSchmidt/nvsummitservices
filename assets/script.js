@@ -361,14 +361,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const dateInput = document.getElementById('last-study-date');
   
   if (dateInput && typeof flatpickr !== 'undefined') {
-    flatpickr(dateInput, {
+    const fp = flatpickr(dateInput, {
       dateFormat: "m/d/Y",
       maxDate: "today",
       disableMobile: false,
+      allowInput: true,  // Allow typing but validate
       clickOpens: true,
+      // Open calendar on focus as well
+      onOpen: function() {
+        console.log('📅 Flatpickr calendar opened');
+      },
       // Clear button
       onReady: function(selectedDates, dateStr, instance) {
-        // Add a clear button
         const clearBtn = document.createElement("button");
         clearBtn.innerHTML = "Clear";
         clearBtn.type = "button";
@@ -378,6 +382,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         instance.calendarContainer.appendChild(clearBtn);
       }
+    });
+    
+    // Make sure clicking on the input opens the calendar
+    dateInput.addEventListener('click', function() {
+      fp.open();
+    });
+    
+    console.log('✅ Flatpickr initialized successfully');
+  } else {
+    console.error('❌ Flatpickr not initialized:', {
+      dateInput: !!dateInput,
+      flatpickrAvailable: typeof flatpickr !== 'undefined'
     });
   }
 });
