@@ -367,7 +367,6 @@ document.addEventListener('DOMContentLoaded', function() {
       maxDate: "today",
       clickOpens: true,
       onReady: function(selectedDates, dateStr, instance) {
-        // Add a clear button
         const clearBtn = document.createElement("button");
         clearBtn.innerHTML = "Clear";
         clearBtn.type = "button";
