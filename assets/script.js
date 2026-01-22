@@ -38,27 +38,20 @@ const io=new IntersectionObserver(entries=>{
 const openBtns=document.querySelectorAll('[data-open]');
 const closeBtns=document.querySelectorAll('[data-close]');
 
-openBtns.forEach(btn=>{
+openBtns.forEach(btn => {
   const id = btn.getAttribute('data-open');
+
+  // ✅ IMPORTANT: class-register-modal is handled by the Stripe section below
+  if (id === 'class-register-modal') return;
+
   const modal = document.getElementById(id);
-  if(!modal) return;
+  if (!modal) return;
 
   btn.addEventListener('click', () => {
-    // Special handling for class registration modal: auto-fill fields
-    if (id === 'class-register-modal') {
-      const cls  = btn.getAttribute('data-class') || '';
-      const date = btn.getAttribute('data-date') || '';
-
-      const classField = modal.querySelector('input[name="Class"]');
-      const dateField  = modal.querySelector('input[name="Date"]');
-
-      if (classField) classField.value = cls;
-      if (dateField)  dateField.value  = date;
-    }
-
     modal.showModal();
   });
 });
+
 
 closeBtns.forEach(btn=>btn.addEventListener('click',()=>{
   document.querySelectorAll('dialog[open]').forEach(m=>m.close());
@@ -200,118 +193,183 @@ document.querySelectorAll('dialog').forEach(dlg => {
 // STRIPE PAYMENT LINKS FOR CLASS REGISTRATION
 // ============================================
 
+// ============================================
+// STRIPE PAYMENT LINKS FOR CLASS REGISTRATION
+// (Supports per-class price + CEU via data-price / data-ceu)
+// Requires these IDs in the modal:
+// - modal-class-name, modal-class-date, modal-class-price, modal-class-ceu
+// - stripe-payment-button
+// - payment-required-section, registration-form-section
+// - stripe-session-id, form-class-name, form-class-date
+// - form-amount-paid, form-ceu-credits
+// ============================================
+
+// Helper: update modal UI + hidden fields from a class payload
+function applyClassDataToModal(classData) {
+  if (!classData) return;
+
+  const name = classData.name || '';
+  const date = classData.date || '';
+  const paymentLink = classData.paymentLink || '';
+  const price = Number(classData.price ?? 75);
+  const ceu = Number(classData.ceu ?? 3);
+
+  // Text fields
+  const modalClassName = document.getElementById('modal-class-name');
+  const modalClassDate = document.getElementById('modal-class-date');
+  if (modalClassName) modalClassName.textContent = name;
+  if (modalClassDate) modalClassDate.textContent = date;
+
+  // Price + CEU display
+  const priceEl = document.getElementById('modal-class-price');
+  if (priceEl) priceEl.textContent = `$${price.toFixed(2)}`;
+
+  const ceuEl = document.getElementById('modal-class-ceu');
+  if (ceuEl) ceuEl.textContent = `${ceu} NRED-approved CE credit${ceu === 1 ? '' : 's'}`;
+
+  // Stripe pay button href + label
+  const payBtn = document.getElementById('stripe-payment-button');
+  if (payBtn) {
+    payBtn.href = paymentLink;
+    payBtn.textContent = `Pay $${price} with Stripe →`;
+  }
+
+  // Hidden form fields for submission
+  const formClassName = document.getElementById('form-class-name');
+  const formClassDate = document.getElementById('form-class-date');
+  if (formClassName) formClassName.value = name;
+  if (formClassDate) formClassDate.value = date;
+
+  const amtPaid = document.getElementById('form-amount-paid');
+  if (amtPaid) amtPaid.value = `$${price.toFixed(2)}`;
+
+  const ceuHidden = document.getElementById('form-ceu-credits');
+  if (ceuHidden) ceuHidden.value = String(ceu);
+}
+
 // Override the existing modal open behavior for class registration
 document.querySelectorAll('[data-open="class-register-modal"]').forEach(btn => {
-  btn.addEventListener('click', function(e) {
+  btn.addEventListener('click', function (e) {
     // Prevent the default modal opening
     e.stopImmediatePropagation();
-    
-    // Get class details
+
+    // Get class details (defaults keep your current behavior if attributes missing)
     const className = this.getAttribute('data-class') || '';
     const classDate = this.getAttribute('data-date') || '';
     const paymentLink = this.getAttribute('data-payment-link') || '';
-    
-    // Store in sessionStorage so it persists after Stripe redirect
-    sessionStorage.setItem('selectedClass', JSON.stringify({
+    const price = Number(this.getAttribute('data-price') || 75);
+    const ceu = Number(this.getAttribute('data-ceu') || 3);
+
+    const classPayload = {
       name: className,
       date: classDate,
-      paymentLink: paymentLink
-    }));
-    
-    // ALSO store in localStorage as backup
-    localStorage.setItem('pendingClassRegistration', JSON.stringify({
-      name: className,
-      date: classDate,
+      paymentLink,
+      price,
+      ceu,
       timestamp: Date.now()
-    }));
-    
-    // Update modal content
-    document.getElementById('modal-class-name').textContent = className;
-    document.getElementById('modal-class-date').textContent = classDate;
-    document.getElementById('stripe-payment-button').href = paymentLink;
-    
-    // Store in hidden form fields
-    document.getElementById('form-class-name').value = className;
-    document.getElementById('form-class-date').value = classDate;
-    
-    // Check if returning from payment
-    checkForPaymentReturn();
-    
+    };
+
+    // Store in sessionStorage so it persists after Stripe redirect
+    sessionStorage.setItem('selectedClass', JSON.stringify(classPayload));
+
+    // ALSO store in localStorage as backup
+    localStorage.setItem('pendingClassRegistration', JSON.stringify(classPayload));
+
+    // Update modal content from payload
+    applyClassDataToModal(classPayload);
+
+    // Only run return logic if the URL actually indicates a Stripe return
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('payment') === 'success' && params.get('session_id')) {
+      checkForPaymentReturn();
+    } else {
+      // Fresh click: ensure we're in payment step (not the post-payment form)
+      const paymentSection = document.getElementById('payment-required-section');
+      const registrationSection = document.getElementById('registration-form-section');
+      if (paymentSection) paymentSection.style.display = 'block';
+      if (registrationSection) registrationSection.style.display = 'none';
+    }
+
     // Open the modal
     const modal = document.getElementById('class-register-modal');
     if (modal) modal.showModal();
   });
 });
 
+
 // Check if user is returning from Stripe payment
 function checkForPaymentReturn() {
   const urlParams = new URLSearchParams(window.location.search);
   const paymentStatus = urlParams.get('payment');
   const sessionId = urlParams.get('session_id');
-  
+  const paymentSection = document.getElementById('payment-required-section');
+  const registrationSection = document.getElementById('registration-form-section');
+
   if (paymentStatus === 'success' && sessionId) {
     // Show registration form, hide payment section
-    document.getElementById('payment-required-section').style.display = 'none';
-    document.getElementById('registration-form-section').style.display = 'block';
-    
+    if (paymentSection) paymentSection.style.display = 'none';
+    if (registrationSection) registrationSection.style.display = 'block';
+
     // Store session ID in hidden field
-    document.getElementById('stripe-session-id').value = sessionId;
-    
+    const sessionField = document.getElementById('stripe-session-id');
+    if (sessionField) sessionField.value = sessionId;
+
     // Try to retrieve class info from sessionStorage first
     let classData = null;
     const storedClass = sessionStorage.getItem('selectedClass');
-    
+
     if (storedClass) {
-      classData = JSON.parse(storedClass);
-    } else {
-      // Fallback to localStorage
+      try {
+        classData = JSON.parse(storedClass);
+      } catch (err) {
+        console.error('❌ Failed to parse selectedClass from sessionStorage', err);
+      }
+    }
+
+    // Fallback to localStorage
+    if (!classData) {
       const localData = localStorage.getItem('pendingClassRegistration');
       if (localData) {
-        const parsed = JSON.parse(localData);
-        // Only use if less than 10 minutes old
-        if (Date.now() - parsed.timestamp < 600000) {
-          classData = parsed;
+        try {
+          const parsed = JSON.parse(localData);
+          // Only use if less than 10 minutes old
+          if (parsed?.timestamp && Date.now() - parsed.timestamp < 600000) {
+            classData = parsed;
+          }
+        } catch (err) {
+          console.error('❌ Failed to parse pendingClassRegistration from localStorage', err);
         }
       }
     }
-    
+
     if (classData) {
-      // Update modal display
-      const modalClassName = document.getElementById('modal-class-name');
-      const modalClassDate = document.getElementById('modal-class-date');
-      const formClassName = document.getElementById('form-class-name');
-      const formClassDate = document.getElementById('form-class-date');
-      
-      if (modalClassName) modalClassName.textContent = classData.name;
-      if (modalClassDate) modalClassDate.textContent = classData.date;
-      if (formClassName) formClassName.value = classData.name;
-      if (formClassDate) formClassDate.value = classData.date;
-      
+      // Restore modal + hidden fields (including price/ceu)
+      applyClassDataToModal(classData);
       console.log('✅ Class data restored successfully:', classData);
     } else {
-      console.error('❌ No class data found - this should not happen');
+      console.error('❌ No class data found - user may have returned without starting from class list');
     }
-    
+
     // Clean up URL without reloading
     const cleanUrl = window.location.pathname;
     window.history.replaceState({}, document.title, cleanUrl);
-    
+
     return true;
   }
-  
-  // Show payment section, hide registration form
-  document.getElementById('payment-required-section').style.display = 'block';
-  document.getElementById('registration-form-section').style.display = 'none';
-  
+
+  // Not returning from Stripe: Show payment section, hide registration form
+  if (paymentSection) paymentSection.style.display = 'block';
+  if (registrationSection) registrationSection.style.display = 'none';
+
   return false;
 }
 
 // On page load, check if we're returning from payment
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
   const paymentStatus = urlParams.get('payment');
   const sessionId = urlParams.get('session_id');
-  
+
   if (paymentStatus === 'success' && sessionId) {
     // Auto-open the registration modal
     const modal = document.getElementById('class-register-modal');
@@ -325,7 +383,7 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 // Clean up storage after successful form submission
-document.getElementById('class-registration-form')?.addEventListener('submit', function(e) {
+document.getElementById('class-registration-form')?.addEventListener('submit', function () {
   // Clear the stored class data after successful submission
   setTimeout(() => {
     sessionStorage.removeItem('selectedClass');
@@ -333,6 +391,7 @@ document.getElementById('class-registration-form')?.addEventListener('submit', f
   }, 1000);
   // The existing form handler in script.js will handle the rest
 });
+
 
 
 // ============================================
