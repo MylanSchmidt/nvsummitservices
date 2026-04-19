@@ -9,6 +9,40 @@
         content="Reserve studies and updates for Nevada community associations, with clear funding recommendations and board-friendly reports from Summit Community Services." />
     <link rel="canonical" href="https://www.nvsummitservices.com/reserve-studies.html" />
 
+    <meta property="og:title" content="HOA Reserve Studies — Summit Community Services" />
+    <meta property="og:description" content="Reserve studies and updates for Nevada community associations, with clear funding recommendations and board-friendly reports from Summit Community Services." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.nvsummitservices.com/reserve-studies.html" />
+    <meta property="og:image" content="https://www.nvsummitservices.com/assets/images/service-reserve.jpg" />
+    <meta property="og:image:alt" content="HOA Reserve Studies — Summit Community Services" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="HOA Reserve Studies — Summit Community Services" />
+    <meta name="twitter:description" content="Reserve studies and updates for Nevada community associations, with clear funding recommendations and board-friendly reports from Summit Community Services." />
+    <meta name="twitter:image" content="https://www.nvsummitservices.com/assets/images/service-reserve.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "HOA Reserve Studies",
+        "serviceType": "Reserve study and funding analysis",
+        "provider": {
+          "@type": "ProfessionalService",
+          "name": "Summit Community Services",
+          "url": "https://www.nvsummitservices.com/"
+        },
+        "areaServed": {
+          "@type": "State",
+          "name": "Nevada"
+        },
+        "audience": {
+          "@type": "BusinessAudience",
+          "audienceType": "Nevada community associations and HOA boards"
+        },
+        "description": "Reserve studies and updates for Nevada community associations, with clear funding recommendations and board-friendly reports from Summit Community Services."
+      }
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -159,8 +193,20 @@
 
                     </aside>
                 </div>
-            </div>
-        </section>
+            </section>
+            <section class="section" aria-labelledby="other-services-title">
+                <div class="container">
+                    <hr style="opacity:.35; margin: 2rem 0 1.25rem;">
+                    <h2 class="h3" id="other-services-title">Explore Other Services</h2>
+
+                        <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem;">
+                            <a class="btn btn-ghost" href="consulting.html">Consulting</a>
+                            <a class="btn btn-ghost" href="education.html">Education</a>
+                            <a class="btn btn-ghost" href="bookkeeping-accounting.html">Bookkeeping &amp; Accounting</a>
+                            <a class="btn btn-ghost" href="porter-maintenance.html">Porter &amp; Maintenance</a>
+                        </div>
+                </div>
+            </section>
     </main>
 
     <footer class="footer" role="contentinfo">
@@ -175,16 +221,18 @@
             <nav class="footer-nav" aria-label="Footer">
                 <a href="index.html#top">Home</a>
                 <a href="index.html#services">Services</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Use</a>
                 <a href="https://handhlegal.net" target="_blank" rel="noopener noreferrer">H&amp;H Legal</a>
             </nav>
         </div>
     </footer>
 
     <!-- Reserve Study Modal -->
-    <dialog class="modal" id="reserve-modal" aria-labelledby="reserve-title">
+    <dialog class="modal" id="reserve-modal" aria-labelledby="reserve-modal-title">
         <div class="modal-dialog" role="document">
             <button class="modal-close" data-close aria-label="Close">✕</button>
-            <h3 class="h3" id="reserve-title">Reserve Study Proposal</h3>
+            <h3 class="h3" id="reserve-modal-title">Reserve Study Proposal</h3>
             <form class="stack" method="POST" action="https://api.web3forms.com/submit">
                 <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
                 <input type="text" name="Name" placeholder="Your Name" required>

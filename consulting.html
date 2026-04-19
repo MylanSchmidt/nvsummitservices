@@ -4,10 +4,44 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HOA Consulting Services — NV Summit Services</title>
+    <title>HOA Consulting Services — Summit Community Services</title>
     <meta name="description"
-        content="Board-focused consulting services for Nevada community associations and HOA management companies—practical improvements to operations, communication, and long-term sustainability." />
+        content="Practical HOA consulting for Nevada community associations — operational reviews, budgeting communication, policy implementation, and transition planning." />
     <link rel="canonical" href="https://www.nvsummitservices.com/consulting.html" />
+
+    <meta property="og:title" content="HOA Consulting Services — Summit Community Services" />
+    <meta property="og:description" content="Practical HOA consulting for Nevada community associations — operational reviews, budgeting communication, policy implementation, and transition planning." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.nvsummitservices.com/consulting.html" />
+    <meta property="og:image" content="https://www.nvsummitservices.com/assets/images/service-consulting.jpg" />
+    <meta property="og:image:alt" content="HOA Consulting Services — Summit Community Services" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="HOA Consulting Services — Summit Community Services" />
+    <meta name="twitter:description" content="Practical HOA consulting for Nevada community associations — operational reviews, budgeting communication, policy implementation, and transition planning." />
+    <meta name="twitter:image" content="https://www.nvsummitservices.com/assets/images/service-consulting.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "HOA Consulting Services",
+        "serviceType": "Consulting for community associations and HOA management companies",
+        "provider": {
+          "@type": "ProfessionalService",
+          "name": "Summit Community Services",
+          "url": "https://www.nvsummitservices.com/"
+        },
+        "areaServed": {
+          "@type": "State",
+          "name": "Nevada"
+        },
+        "audience": {
+          "@type": "BusinessAudience",
+          "audienceType": "Nevada community associations and HOA management companies"
+        },
+        "description": "Practical, board-focused consulting services for Nevada community associations — operational reviews, budgeting communication, policy implementation, and transition planning."
+      }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,11 +148,11 @@
                         <ul>
                             <li>Nevada community associations seeking help with specific problem areas or operational
                             challenges</li>
-                            <li>HOA management companies looking for a fresh, objective review of workflows and
+                            <li>HOA management companies looking for a fresh, objective review of workflows and</li>
                             <li>Boards preparing for transitions, growth, or difficult conversations with homeowners</li>
                         </ul>
                         <hr>
-                        <h2 class="h4">Engagement Styles</h2>
+                        <h3 class="h4">Engagement Styles</h3>
                         <ul>
                             <li>Short, focused projects (single issue or community)</li>
                             <li>Broader portfolio reviews for management companies</li>
@@ -148,7 +182,7 @@
                                 ← Back to Services
                             </a>
                         </p>
-                        <h2 class="h3">Professional Boundaries You Can Rely On</h2>
+                        <h3 class="h3">Professional Boundaries You Can Rely On</h3>
                         <p>
                             Our role is to complement—not replace—your existing professional team.
                         </p>
@@ -161,11 +195,23 @@
                             This ensures your association remains compliant while benefiting from practical,
                             operational guidance.
                         </p>
-
                     </aside>
                 </div>
             </div>
         </section>
+                <section class="section" aria-labelledby="other-services-title">
+                    <div class="container">
+                        <hr style="opacity:.35; margin: 2rem 0 1.25rem;">
+                        <h2 class="h3" id="other-services-title">Explore Other Services</h2>
+
+                        <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem;">
+                            <a class="btn btn-ghost" href="reserve-studies.html">Reserve Studies</a>
+                            <a class="btn btn-ghost" href="education.html">Education</a>
+                            <a class="btn btn-ghost" href="bookkeeping-accounting.html">Bookkeeping &amp; Accounting</a>
+                            <a class="btn btn-ghost" href="porter-maintenance.html">Porter &amp; Maintenance</a>
+                        </div>
+                    </div>
+                </section>
     </main>
 
     <footer class="footer" role="contentinfo">
@@ -180,16 +226,18 @@
             <nav class="footer-nav" aria-label="Footer">
                 <a href="index.html#top">Home</a>
                 <a href="index.html#services">Services</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Use</a>
                 <a href="https://handhlegal.net" target="_blank" rel="noopener noreferrer">H&amp;H Legal</a>
             </nav>
         </div>
     </footer>
 
     <!-- Consulting Modal -->
-    <dialog class="modal" id="consulting-modal" aria-labelledby="consulting-title">
+    <dialog class="modal" id="consulting-modal" aria-labelledby="consulting-modal-title">
         <div class="modal-dialog" role="document">
             <button class="modal-close" data-close aria-label="Close">✕</button>
-            <h3 class="h3" id="consulting-title">Consulting Inquiry</h3>
+            <h3 class="h3" id="consulting-modal-title">Consulting Inquiry</h3>
             <form class="stack" method="POST" action="https://api.web3forms.com/submit">
                 <input type="hidden" name="access_key" value="86f3717a-7836-49aa-99a2-4e6adbd7ec3f">
                 <input type="text" name="Name" placeholder="Your Name" required>
