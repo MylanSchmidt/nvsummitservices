@@ -483,3 +483,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+// Floating Board & Breakfast homepage prompt
+(function () {
+  const eventFloat = document.getElementById('homepage-event-float');
+  if (!eventFloat) return;
+
+  const closeButtons = eventFloat.querySelectorAll('[data-event-float-close]');
+  const focusTarget = eventFloat.querySelector('.event-float-close');
+
+  function openEventFloat() {
+    eventFloat.removeAttribute('hidden');
+    document.body.classList.add('event-float-open');
+    setTimeout(() => focusTarget?.focus({ preventScroll: true }), 50);
+  }
+
+  function closeEventFloat() {
+    eventFloat.setAttribute('hidden', '');
+    document.body.classList.remove('event-float-open');
+  }
+
+  closeButtons.forEach(button => button.addEventListener('click', closeEventFloat));
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !eventFloat.hasAttribute('hidden')) closeEventFloat();
+  });
+
+  window.addEventListener('DOMContentLoaded', function () {
+    setTimeout(openEventFloat, 650);
+  });
+})();
