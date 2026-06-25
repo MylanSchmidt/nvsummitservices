@@ -745,6 +745,21 @@ dialog.modal,
 .agenda-item h3 { margin:0 0 .25rem; font:700 1.05rem Poppins, Inter; }
 .agenda-item p { margin:0; color:#cbd3de; }
 .agenda-wide { grid-column:1 / -1; }
+
+.speakers-section { background:linear-gradient(180deg, rgba(201,164,74,.04), rgba(10,27,42,.16)); }
+.speaker-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-top:1.5rem; }
+.speaker-card { display:grid; grid-template-columns:86px 1fr; gap:1rem; padding:1.25rem; border-radius:18px; background:var(--card); border:1px solid rgba(201,164,74,.36); box-shadow:0 14px 34px rgba(0,0,0,.18); transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease; scroll-margin-top:calc(var(--header-height) + 1.25rem); }
+.speaker-card:hover { transform:translateY(-4px); border-color:rgba(201,164,74,.84); box-shadow:0 24px 55px rgba(0,0,0,.34); }
+.speaker-badge { width:70px; height:70px; border-radius:50%; display:grid; place-items:center; background:var(--gold); color:#111; font:800 1.2rem Poppins, Inter; box-shadow:0 0 18px rgba(201,164,74,.28); }
+.speaker-content { min-width:0; }
+.speaker-topic { color:var(--gold); text-transform:uppercase; letter-spacing:.07em; font-size:.74rem; font-weight:800; margin:0 0 .25rem; }
+.speaker-content h3 { margin:0; font:700 1.2rem/1.2 Poppins, Inter; color:#fff; }
+.speaker-role { margin:.15rem 0 .75rem; color:#cbd3de; font-weight:650; }
+.speaker-content p { color:#cbd3de; }
+.speaker-content p:last-child { margin-bottom:0; }
+.speaker-placeholder { border-left:3px solid rgba(201,164,74,.75); padding-left:.8rem; font-style:italic; color:#d6dbe3; }
+.agenda-item a { color:#fff; text-decoration:none; border-bottom:1px dotted rgba(255,255,255,.35); }
+.agenda-item a:hover, .agenda-item a:focus-visible { color:#4ea1ff; border-bottom-color:currentColor; }
 .sponsors-section { background:linear-gradient(180deg, transparent, rgba(10,27,42,.32)); }
 .sponsor-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:1rem; margin-top:1.5rem; }
 .sponsor-card { display:grid; grid-template-rows:150px 1fr; overflow:hidden; border-radius:18px; background:var(--card); border:1px solid rgba(201,164,74,.36); box-shadow:0 14px 34px rgba(0,0,0,.18); transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
@@ -764,13 +779,14 @@ dialog.modal,
 .rsvp-form { background:rgba(8,12,18,.48); border:1px solid rgba(201,164,74,.25); border-radius:16px; padding:1rem; }
 .rsvp-form .btn { width:100%; }
 @media (max-width: 980px) {
-  .event-quick-grid, .sponsor-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .event-quick-grid, .speaker-grid, .sponsor-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); }
   .rsvp-panel { grid-template-columns:1fr; }
 }
 @media (max-width: 700px) {
   .event-hero { min-height:auto; padding:5rem 0 2rem; }
-  .event-quick-grid, .agenda-grid, .sponsor-grid { grid-template-columns:1fr; }
+  .event-quick-grid, .agenda-grid, .speaker-grid, .sponsor-grid { grid-template-columns:1fr; }
   .agenda-item, .agenda-wide { grid-column:auto; grid-template-columns:70px 1fr; }
+  .speaker-card { grid-template-columns:1fr; }
   .agenda-item time { height:54px; font-size:.96rem; }
   .event-hero h1 { font-size:clamp(2rem, 11vw, 3.1rem); }
 }
