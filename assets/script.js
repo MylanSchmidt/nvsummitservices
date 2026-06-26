@@ -125,7 +125,7 @@ document.querySelectorAll('form.stack').forEach(form => {
 
 
 // Make service cards clickable as full tiles, while keeping buttons functional
-document.querySelectorAll('.service-card[data-link]').forEach(function(card) {
+document.querySelectorAll('.service-card[data-link], .speaker-card[data-link]').forEach(function(card) {
   var target = card.getAttribute('data-link');
   if (!target) return;
 
@@ -161,7 +161,7 @@ document.querySelectorAll('.service-card[data-link]').forEach(function(card) {
   card.setAttribute('role', 'link');
   var heading = card.querySelector('h3');
   if (heading && heading.textContent) {
-    card.setAttribute('aria-label', heading.textContent.trim() + ' – learn more');
+    card.setAttribute('aria-label', heading.textContent.trim() + (card.classList.contains('speaker-card') ? ' – view presentation PDF' : ' – learn more'));
   }
 });
 
@@ -483,7 +483,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-// Floating Board & Breakfast homepage prompt
+
+// Homepage Board & Breakfast follow-up prompt
 (function () {
   const eventFloat = document.getElementById('homepage-event-float');
   if (!eventFloat) return;
@@ -511,3 +512,4 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(openEventFloat, 650);
   });
 })();
+

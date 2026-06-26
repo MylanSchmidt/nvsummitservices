@@ -767,6 +767,10 @@ dialog.modal,
 .sponsor-logo-wrap { display:grid; place-items:center; padding:1rem; background:linear-gradient(135deg, #fff, #f3f6fb); }
 .sponsor-logo-wrap img { max-width:88%; max-height:105px; object-fit:contain; }
 .sponsor-content { padding:1rem; display:grid; gap:.5rem; align-content:start; }
+
+.speaker-card-clickable { cursor:pointer; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.speaker-card-clickable:hover, .speaker-card-clickable:focus-within { transform: translateY(-3px); border-color:rgba(201,164,74,.62); box-shadow:0 18px 42px rgba(0,0,0,.24); }
+.speaker-presentation-link { margin-top:.8rem; align-self:flex-start; }
 .sponsor-tag { color:var(--gold); text-transform:uppercase; letter-spacing:.07em; font-size:.74rem; font-weight:800; margin:0; }
 .sponsor-content h3 { margin:0; font:700 1.08rem/1.2 Poppins, Inter; color:#fff; }
 .sponsor-content p { margin:0; color:#cbd3de; }
