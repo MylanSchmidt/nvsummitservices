@@ -484,6 +484,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+// POPUP DISABLED — Re-enable the block below for the next event.
+// Also re-enable the HTML block in index.html and the CSS block in assets/style.css.
+// Update the event name, description, and button links before re-activating.
+/*
 // Homepage Board & Breakfast follow-up prompt
 (function () {
   const eventFloat = document.getElementById('homepage-event-float');
@@ -512,4 +516,5 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(openEventFloat, 650);
   });
 })();
+*/ // END POPUP DISABLED
 

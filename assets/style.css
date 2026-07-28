@@ -795,12 +795,15 @@ dialog.modal,
   .event-hero h1 { font-size:clamp(2rem, 11vw, 3.1rem); }
 }
 
+/* POPUP DISABLED — Re-enable and update the styles below for the next event.
+   Also re-enable the HTML block in index.html and the JS block in assets/script.js.
+
 .homepage-event-banner { margin:1.25rem 0 1.5rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
 .homepage-event-banner p { margin:.25rem 0 0; }
 .homepage-event-banner .btn { flex:0 0 auto; }
 @media (max-width: 760px) { .homepage-event-banner { flex-direction:column; align-items:flex-start; } }
 
-/* Floating Board & Breakfast homepage prompt */
+/* Floating Board & Breakfast homepage prompt * /
 body.event-float-open { overflow: hidden; }
 .event-float[hidden] { display: none !important; }
 .event-float {
@@ -932,3 +935,4 @@ body.event-float-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .event-float-panel { animation: none; }
 }
+END POPUP DISABLED */
